@@ -1,0 +1,112 @@
+﻿@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#createButton").click(function (e) {
+				const div = document.getElementById("partialViewContainer");
+				e.preventDefault(); // Empêche le comportement par défaut du lien
+				$.ajax({
+					url: '@Url.Action("Create", "Faces")',
+					type: 'GET',
+					success: function (data) {
+						$("#partialViewContainer").html(data);
+					},
+					error: function () {
+						alert("Erreur lors du chargement de la vue partielle.");
+					}
+				});
+				div.style.display = "flex";
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$("#getButton").click(function (e) {
+				const div = document.getElementById("getContainer");
+				e.preventDefault(); // Empêche le comportement par défaut du lien
+				$.ajax({
+					url: '@Url.Action("Get", "Faces")',
+					type: 'GET',
+					success: function (data) {
+						$("#getContainer").html(data);
+						console.log($("#getFormulaire"));
+						$("#getFormulaire").submit(function (e) {
+							const dive = document.getElementById("display-container");
+							e.preventDefault(); // Empêche le comportement par défaut du lien
+							$.ajax({
+								url: '/Faces/Display?Id='+document.getElementById("inputFace").value,
+								type: 'GET',
+								success: function (data) {
+									$("#display-container").html(data);
+								},
+								error: function () {
+									alert("Erreur lors du chargement de la vue partielle.");
+								}
+							});
+							dive.style.display = "flex";
+						});
+					},
+					error: function () {
+						alert("Erreur lors du chargement de la vue partielle.");
+					}
+				});
+				div.style.display = "flex";
+			});
+		});
+	</script>
+	<style>
+		#partialViewContainer {
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			background-color: #f8f9fa; /* Couleur de fond pour une meilleure visibilité */
+			border-radius: 10px; /* Coins arrondis */
+			border: 1px solid #000; /* Bordure noire */
+			margin-top: 20px; /* Espacement au-dessus du conteneur */
+			width: 80%
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+	</style>
+	<style>
+		#getContainer {
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			background-color: #f8f9fa; /* Couleur de fond pour une meilleure visibilité */
+			border-radius: 10px; /* Coins arrondis */
+			border: 1px solid #000; /* Bordure noire */
+			margin-top: 20px; /* Espacement au-dessus du conteneur */
+			width: 80%
+		}
+	</style>
+}
+
+@* ---------------------------------------------------------------------------------------------------------------------- *@
+<div class="outer-div d-flex justify-content-center align-items-center" style="flex-direction: column; padding-top: 20%">
+	<h1> VEUILLEZ CHOISIR UNE ACTION </h1>
+	<div class="button-container" style="padding-top: 10%">
+		<a id="createButton" class="btn btn-primary" href="#"> CREER </a>
+		<a id="getButton" class="btn btn-secondary" href="#"> VOIR </a>
+
+	</div>
+	<div id="partialViewContainer" style="display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f8f9fa; /* Ajoute une couleur de fond pour une meilleure visibilité */
+            border-radius: 10px;"></div>
+	<div id="getContainer" style="display:none;">
+	</div>
+	<div id="display-container" class="display-container" style="display:flex">
+	</div>
+</div>
+
